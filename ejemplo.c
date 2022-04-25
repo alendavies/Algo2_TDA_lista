@@ -13,7 +13,6 @@ bool mostrar_elemento(void *elemento, void *contador)
 	return true;
 }
 
-
 int elemento_es_d(void *_elemento, void *ignorado)
 {
 	char *elemento = _elemento;
@@ -46,28 +45,30 @@ void probar_operaciones_lista()
 	lista_insertar_en_posicion(lista, &d, 100);
 	lista_insertar_en_posicion(lista, &w, 3);
 
-	/* char *valor_quitado = lista_quitar_de_posicion(lista, 3);
-	printf("Elementos quitado de la posicion 3 de la lista: %c\n",
-	       *valor_quitado); */
+	printf("\n");
 
-	printf("%c \n", *(char *)lista_elemento_en_posicion(lista, 0));
-	printf("%c \n", *(char *)lista_elemento_en_posicion(lista, 1));
-	printf("%c \n", *(char *)lista_elemento_en_posicion(lista, 2));
-	printf("%c \n", *(char *)lista_elemento_en_posicion(lista, 3));
-	printf("%c \n", *(char *)lista_elemento_en_posicion(lista, 4));
-
-	/* printf("Elementos en la lista: ");
+	printf("Elementos en la lista: ");
 	for (size_t i = 0; i < lista_tamanio(lista); i++)
 		printf("%c ", *(char *)lista_elemento_en_posicion(lista, i));
+	printf("\n\n");
 
-	printf("\n\n"); */
+	char *valor_quitado = lista_quitar_de_posicion(lista, 3);
+	printf("Elementos quitado de la posicion 3 de la lista: %c\n\n",
+	       *valor_quitado);
 
-	/* printf("Imprimo TODOS LOS ELEMENTOS DE LA LISTA usando el iterador externo: \n");
+	printf("Elementos en la lista: ");
+	for (size_t i = 0; i < lista_tamanio(lista); i++)
+		printf("%c ", *(char *)lista_elemento_en_posicion(lista, i));
+	printf("\n\n");
+
+	printf("Imprimo TODOS LOS ELEMENTOS DE LA LISTA usando el iterador externo: \n");
 	lista_iterador_t *it = NULL;
 
 	for (it = lista_iterador_crear(lista);
-	     lista_iterador_tiene_siguiente(it); lista_iterador_avanzar(it))
+	     lista_iterador_tiene_siguiente(it); lista_iterador_avanzar(it)){
+
 		printf("%c ", *(char *)lista_iterador_elemento_actual(it));
+	     }
 	printf("\n\n");
 
 	lista_iterador_destruir(it);
@@ -97,8 +98,7 @@ void probar_operaciones_lista()
 	if(elemento_c && elemento_c == &c)
 		printf("ENCONTRADO\n");
 	else
-		printf("NO ENCONTRADO D:\n"); */
-
+		printf("NO ENCONTRADO D:\n");
 
 	lista_destruir(lista);
 }
@@ -159,17 +159,17 @@ void probar_operaciones_pila()
 
 int main()
 {
+	printf("\nEjemplo del destructor de lista (no debería perder memoria)\n");
+	probar_operaciones_destructor_lista();
+
 	printf("Ejemplo del uso de lista\n");
 	probar_operaciones_lista();
 
-	/* printf("\nEjemplo del destructor de lista (no debería perder memoria)\n");
-	probar_operaciones_destructor_lista(); */
+	printf("\nEjemplo del uso de cola\n");
+	probar_operaciones_cola();
 
-	/* printf("\nEjemplo del uso de cola\n");
-	probar_operaciones_cola(); */
-
-	/* printf("\nEjemplo del uso de pila\n");
+	printf("\nEjemplo del uso de pila\n");
 	probar_operaciones_pila();
- */
+
 	return 0;
 }
