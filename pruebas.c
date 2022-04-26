@@ -309,6 +309,7 @@ void no_se_puede_avanzar_en_un_iterador_nulo()
 	pa2m_afirmar(lista_iterador_avanzar(NULL) == false, "No se puede avanzar en un iterador nulo");
 }
 
+
 void un_iterador_nulo_no_puede_tener_siguiente()
 {
 	pa2m_afirmar(lista_iterador_tiene_siguiente(NULL) == false, "Un iterador nulo no tiene siguiente");
