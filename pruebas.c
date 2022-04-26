@@ -309,7 +309,6 @@ void no_se_puede_avanzar_en_un_iterador_nulo()
 	pa2m_afirmar(lista_iterador_avanzar(NULL) == false, "No se puede avanzar en un iterador nulo");
 }
 
-
 void un_iterador_nulo_no_puede_tener_siguiente()
 {
 	pa2m_afirmar(lista_iterador_tiene_siguiente(NULL) == false, "Un iterador nulo no tiene siguiente");
@@ -335,6 +334,8 @@ void no_puedo_buscar_un_elemento_en_una_lista_nula_o_vacia()
 
 	pa2m_afirmar(lista_buscar_elemento(NULL, elemento_es_igual_a, &elemento) == NULL, "No puedo buscar un elemento en una lista nula");
 
+	pa2m_afirmar(lista_buscar_elemento(lista, NULL, &elemento) == NULL, "No puedo buscar un elemento en una lista con funcion nula");
+
 	lista_destruir(lista);
 }
 
@@ -342,9 +343,15 @@ void busco_un_elemento_que_esta_en_la_lista_y_lo_encuentra()
 {
 	lista_t *lista = lista_crear();
 	int elemento1 = 10;
+	int elemento2 = 5;
+	int elemento3 = 8;
 	lista_insertar(lista, &elemento1);
+	lista_insertar(lista, &elemento2);
+	lista_insertar(lista, &elemento3);
 
-	pa2m_afirmar(lista_buscar_elemento(lista, elemento_es_igual_a, &elemento1) == &elemento1, "Busco un elemento que está en la lista y lo encuentra");
+	pa2m_afirmar(lista_buscar_elemento(lista, elemento_es_igual_a, &elemento1) == &elemento1, "Busco el primer elemento de la lista y lo encuentra");
+	pa2m_afirmar(lista_buscar_elemento(lista, elemento_es_igual_a, &elemento2) == &elemento2, "Busco un elemento de la lista y lo encuentra");
+	pa2m_afirmar(lista_buscar_elemento(lista, elemento_es_igual_a, &elemento3) == &elemento3, "Busco el último elemento de la lista y lo encuentra");
 
 	lista_destruir(lista);
 }
@@ -373,8 +380,11 @@ void no_se_puede_iterar_con_lista_nula_o_vacia()
 	int contador = 0;
 
 	pa2m_afirmar(lista_con_cada_elemento(lista, mostrar_elemento, (void *)&contador) == 0, "No se puede iterar una lista vacia");
-
 	pa2m_afirmar(lista_con_cada_elemento(NULL, mostrar_elemento, (void *)&contador) == 0, "No se puede iterar una lista nula");
+
+	pa2m_afirmar(lista_con_cada_elemento(lista, NULL, (void *)&contador) == 0, "No se puede iterar una lista con funcion nula");
+
+	lista_destruir(lista);
 }
 
 void puedo_iterar_y_me_devuelve_la_cantidad_de_elementos()
@@ -437,20 +447,22 @@ int main() {
 	no_se_puede_quitar_en_una_lista_nula_o_vacia();
 	quito_un_elemento_y_disminuye_el_tamanio_de_la_lista();
 
-	pa2m_nuevo_grupo("Pruebas de iterador");
-	creo_un_iterador_y_me_devuelve_un_iterador_valido();
-	no_se_puede_avanzar_el_iterador_si_no_tiene_siguiente();
-	un_iterador_nulo_no_puede_tener_siguiente();
-	no_se_puede_avanzar_en_un_iterador_nulo();
-
-	pa2m_nuevo_grupo("Pruebas de iterador interno");
-	no_se_puede_iterar_con_lista_nula_o_vacia();
-	puedo_iterar_y_me_devuelve_la_cantidad_de_elementos();
-
 	pa2m_nuevo_grupo("Pruebas de buscar elemento en lista");
 	no_puedo_buscar_un_elemento_en_una_lista_nula_o_vacia();
 	busco_un_elemento_que_esta_en_la_lista_y_lo_encuentra();
 	busco_un_elemento_que_no_esta_en_la_lista_y_no_lo_encuentra();
+	
+	pa2m_nuevo_grupo("Pruebas de iterador externo");
+	creo_un_iterador_y_me_devuelve_un_iterador_valido();
+	no_se_puede_avanzar_el_iterador_si_no_tiene_siguiente();
+	un_iterador_nulo_no_puede_tener_siguiente();
+	no_se_puede_avanzar_en_un_iterador_nulo();
+	//si_tiene_siguiente_puedo_avanzar();
+
+	pa2m_nuevo_grupo("Pruebas de iterador interno");
+	no_se_puede_iterar_con_lista_nula_o_vacia();
+	//puedo_iterar_y_me_devuelve_la_cantidad_de_elementos();
+
 
   	return pa2m_mostrar_reporte();
 }

@@ -121,7 +121,6 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 		lista->cantidad--;
 		return elemento_a_quitar;
 	}
-
 	int i = 0;
 	nodo_t *aux1 = lista->nodo_inicio;
 	while( i < posicion-1){ //Quitar al medio 
@@ -134,7 +133,6 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion)
 	free(aux2);
 
 	lista->cantidad--;
-
 	return elemento_a_quitar;
 }
 
