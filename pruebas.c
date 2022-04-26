@@ -22,12 +22,12 @@ void apilo_un_elemento_y_se_incrementa_el_tamanio_de_la_pila()
 	int elemento1 = 5;
 	int elemento2 = 7;
 
-	pa2m_afirmar(pila_apilar(pila, &elemento1) == pila, "Puedo apilar un elemento y se devuelve la pila");
-	pa2m_afirmar(pila_tamanio(pila) == 1 && !pila_vacia(pila), "Al apilar un elemento el tamaño de la pila es 1");
+	pa2m_afirmar(pila_apilar(pila, &elemento1) == pila, "Puedo apilar un elemento en una pila vacía y se devuelve la pila");
+	pa2m_afirmar(pila_tamanio(pila) == 1 && !pila_vacia(pila), "Al apilar un elemento el tamaño de la pila aumenta");
 	pa2m_afirmar(pila_tope(pila) == &elemento1, "El tope de la pila es el correcto");
 
 	pa2m_afirmar(pila_apilar(pila, &elemento2) == pila, "Puedo apilar un segundo elemento y se devuelve la pila");
-	pa2m_afirmar(pila_tamanio(pila) == 2 && !pila_vacia(pila), "Al apilar otro elemento el tamaño de la pila es 2");
+	pa2m_afirmar(pila_tamanio(pila) == 2 && !pila_vacia(pila), "Al apilar otro elemento el tamaño de la pila aumenta");
 	pa2m_afirmar(pila_tope(pila) == &elemento2, "El tope de la pila es el correcto");
 
 	pila_destruir(pila);
@@ -88,6 +88,78 @@ void creo_una_cola_y_devuelve_una_cola_vacia_con_frente_nulo()
 	pa2m_afirmar(cola != NULL, "La cola creada es válida");
 	pa2m_afirmar(cola_tamanio(cola) == 0 && cola_vacia(cola), "La cola creada es de tamaño 0");
 	pa2m_afirmar(cola_frente(cola) == NULL, "El elemento en el frente de la cola es nulo");
+
+	cola_destruir(cola);
+}
+
+void encolo_un_elemento_y_se_incrementa_el_tamanio_de_la_cola()
+{
+	cola_t *cola = cola_crear();
+	int elemento1 = 5;
+	int elemento2 = 7;
+	int elemento3 = 10;
+
+	pa2m_afirmar(cola_encolar(cola, &elemento1) == cola, "Encolo un elemento en una cola vacía y me devuelve la cola");
+	pa2m_afirmar(cola_tamanio(cola) == 1 && !cola_vacia(cola), "Al encolar un elemento el tamaño de la cola aumenta");
+	pa2m_afirmar(cola_frente(cola) == &elemento1, "El frente de la cola es el correcto");
+
+	pa2m_afirmar(cola_encolar(cola, &elemento2) == cola, "Encolo un segundo elemento y me devuelve la cola");
+	pa2m_afirmar(cola_tamanio(cola) == 2 && !cola_vacia(cola), "Al encolar un segundo elemento el tamaño de la cola aumenta");
+	pa2m_afirmar(cola_frente(cola) == &elemento1, "El frente de la cola es el correcto");
+
+	pa2m_afirmar(cola_encolar(cola, &elemento3) == cola, "Encolo un tercer elemento y me devuelve la cola");
+	pa2m_afirmar(cola_tamanio(cola) == 3 && !cola_vacia(cola), "Al encolar unn tercer elemento el tamaño de la cola aumenta");
+	pa2m_afirmar(cola_frente(cola) == &elemento1, "El frente de la cola es el correcto");
+	
+	cola_destruir(cola);
+}
+
+void no_puedo_encolar_en_una_cola_nula()
+{
+	int elemento = 1;
+	pa2m_afirmar(cola_encolar(NULL, &elemento) == NULL, "No puedo encolar en una cola nula");
+}
+
+void puedo_encolar_un_elemento_NULL()
+{
+	cola_t *cola = cola_crear();
+	pa2m_afirmar(cola_encolar(cola, NULL) == cola, "Puedo encolar un elemento NULL");
+	cola_destruir(cola);	
+}
+
+void no_puedo_desencolar_de_una_cola_vacia_o_nula()
+{
+	pa2m_afirmar(cola_desencolar(NULL) == NULL, "No puedo encolar en una cola nula");
+
+	cola_t *cola = cola_crear();
+
+	pa2m_afirmar(cola_desencolar(cola) == NULL, "No puedo desencolar en una cola vacía");
+
+	cola_destruir(cola);
+}
+
+void desencolo_un_elemento_y_disminuye_el_tamanio_de_la_cola()
+{
+	cola_t *cola = cola_crear();
+	int elemento1 = 5;
+	int elemento2 = 7;
+	int elemento3 = 10;
+
+	cola_encolar(cola, &elemento1);
+	cola_encolar(cola, &elemento2);
+	cola_encolar(cola, &elemento3);
+
+	pa2m_afirmar(cola_desencolar(cola) == &elemento1, "Desencolo un elemento y me devuelve ese elemento");
+	pa2m_afirmar(cola_tamanio(cola) == 2, "Al desencolar un elemento disminuye el tamaño de la cola");
+	pa2m_afirmar(cola_frente(cola) == &elemento2, "Al desencolar un elemento, el nuevo frente de la cola es correcto");
+
+	pa2m_afirmar(cola_desencolar(cola) == &elemento2, "Desencolo un elemento y me devuelve ese elemento");
+	pa2m_afirmar(cola_tamanio(cola) == 1, "Al desencolar un elemento disminuye el tamaño de la cola");
+	pa2m_afirmar(cola_frente(cola) == &elemento3, "Al desencolar un elemento, el nuevo frente de la cola es correcto");
+
+	pa2m_afirmar(cola_desencolar(cola) == &elemento3, "Desencolo un elemento y me devuelve ese elemento");
+	pa2m_afirmar(cola_tamanio(cola) == 0 && cola_vacia(cola), "Al desencolar el ultimo elemento de la cola, queda vacía");
+	pa2m_afirmar(cola_frente(cola) == NULL, "Al desencolar el último elemento de la cola, el nuevo frente de la cola es NULL0");
 
 	cola_destruir(cola);
 }
@@ -165,9 +237,9 @@ void inserto_un_elemento_y_se_incrementa_el_tamanio_de_la_lista()
 
 void no_se_puede_quitar_en_una_lista_nula_o_vacia()
 {
-	pa2m_afirmar(lista_quitar(NULL) == NULL && lista_quitar_de_posicion(NULL, 2) == NULL, "No puedo quitar elementos de una lista nula");
 	lista_t *lista = lista_crear();
-	lista->cantidad = 0;
+
+	pa2m_afirmar(lista_quitar(NULL) == NULL && lista_quitar_de_posicion(NULL, 2) == NULL, "No puedo quitar elementos de una lista nula");
 
 	pa2m_afirmar(lista_quitar(lista) == NULL && lista_quitar_de_posicion(lista, 2) == NULL, "No puedo quitar elementos de una lista vacía");
 
@@ -237,24 +309,117 @@ void no_se_puede_avanzar_en_un_iterador_nulo()
 	pa2m_afirmar(lista_iterador_avanzar(NULL) == false, "No se puede avanzar en un iterador nulo");
 }
 
+void un_iterador_nulo_no_puede_tener_siguiente()
+{
+	pa2m_afirmar(lista_iterador_tiene_siguiente(NULL) == false, "Un iterador nulo no tiene siguiente");
+}
+
+int elemento_es_igual_a(void *_a, void *_b)
+{
+	char *a = _a;
+	char *b = _b;
+
+	if(a && b && *a == *b)
+		return 0;
+
+	return -1;
+}
+
+void no_puedo_buscar_un_elemento_en_una_lista_nula_o_vacia()
+{	
+	lista_t *lista = lista_crear();
+	int elemento = 'a';
+
+	pa2m_afirmar(lista_buscar_elemento(lista, elemento_es_igual_a, &elemento) == NULL, "No puedo buscar un elemento en una lista vacía");
+
+	pa2m_afirmar(lista_buscar_elemento(NULL, elemento_es_igual_a, &elemento) == NULL, "No puedo buscar un elemento en una lista nula");
+
+	lista_destruir(lista);
+}
+
+void busco_un_elemento_que_esta_en_la_lista_y_lo_encuentra()
+{
+	lista_t *lista = lista_crear();
+	int elemento1 = 10;
+	lista_insertar(lista, &elemento1);
+
+	pa2m_afirmar(lista_buscar_elemento(lista, elemento_es_igual_a, &elemento1) == &elemento1, "Busco un elemento que está en la lista y lo encuentra");
+
+	lista_destruir(lista);
+}
+
+void busco_un_elemento_que_no_esta_en_la_lista_y_no_lo_encuentra()
+{
+	lista_t *lista = lista_crear();
+	int elemento = 'a';
+
+	pa2m_afirmar(lista_buscar_elemento(lista, elemento_es_igual_a, &elemento) == NULL, "Busco un elemento que no está en la lista y no lo encuentra");
+
+	lista_destruir(lista);
+}
+
+bool mostrar_elemento(void *elemento, void *contador)
+{
+	if (elemento && contador)
+		printf("Elemento %i: %c \n", (*(int *)contador)++,
+		       *(char *)elemento);
+	return true;
+}
+
+void no_se_puede_iterar_con_lista_nula_o_vacia()
+{
+	lista_t *lista = lista_crear();
+	int contador = 0;
+
+	pa2m_afirmar(lista_con_cada_elemento(lista, mostrar_elemento, (void *)&contador) == 0, "No se puede iterar una lista vacia");
+
+	pa2m_afirmar(lista_con_cada_elemento(NULL, mostrar_elemento, (void *)&contador) == 0, "No se puede iterar una lista nula");
+}
+
+void puedo_iterar_y_me_devuelve_la_cantidad_de_elementos()
+{
+	lista_t *lista = lista_crear();
+	int contador = 0;
+	char elemento1 = 'c';
+	char elemento2 = 'd';
+	char elemento3 = 'e';
+
+	lista_insertar(lista, &elemento1);
+	lista_insertar(lista, &elemento2);
+	lista_insertar(lista, &elemento3);
+
+	size_t elementos = lista_con_cada_elemento(NULL, mostrar_elemento, (void *)&contador);
+	printf("Recorri %lu elementos con el iterador interno y sume %i elementos\n",
+	       elementos, contador);
+
+	pa2m_afirmar(lista_con_cada_elemento(NULL, mostrar_elemento, (void *)&contador) == 2, "Puedo iterar en una lista y me devuelve la cantidad de elementos");
+}
+
 int main() {
 
 	pa2m_nuevo_grupo("Pruebas de creación de pila");
   	creo_una_pila_y_devuelve_una_pila_vacia_con_tope_nulo();
 
   	pa2m_nuevo_grupo("Pruebas de apilar");
-	apilo_un_elemento_y_se_incrementa_el_tamanio_de_la_pila();
-	puedo_apilar_un_elemento_NULL();
 	no_se_puede_apilar_en_una_pila_nula();
+	puedo_apilar_un_elemento_NULL();
+	apilo_un_elemento_y_se_incrementa_el_tamanio_de_la_pila();
 
 	pa2m_nuevo_grupo("Pruebas de desapilar");
-	desapilo_un_elemento_y_disminuye_el_tamanio_de_la_pila();
 	no_se_puede_desapilar_en_una_pila_nula();
+	desapilo_un_elemento_y_disminuye_el_tamanio_de_la_pila(); 
 
 	pa2m_nuevo_grupo("Pruebas de creación de cola");
   	creo_una_cola_y_devuelve_una_cola_vacia_con_frente_nulo();
 
 	pa2m_nuevo_grupo("Pruebas de encolar");
+	no_puedo_encolar_en_una_cola_nula();
+	puedo_encolar_un_elemento_NULL();
+	encolo_un_elemento_y_se_incrementa_el_tamanio_de_la_cola();
+
+	pa2m_nuevo_grupo("Pruebas de desencolar");
+	no_puedo_desencolar_de_una_cola_vacia_o_nula();
+	desencolo_un_elemento_y_disminuye_el_tamanio_de_la_cola();
 
 	pa2m_nuevo_grupo("Pruebas de creación de lista");
 	creo_una_lista_y_me_devuelve_una_lista_vacía_con_principio_y_fin_nulos();
@@ -274,7 +439,17 @@ int main() {
 	pa2m_nuevo_grupo("Pruebas de iterador");
 	creo_un_iterador_y_me_devuelve_un_iterador_valido();
 	no_se_puede_avanzar_el_iterador_si_no_tiene_siguiente();
+	un_iterador_nulo_no_puede_tener_siguiente();
 	no_se_puede_avanzar_en_un_iterador_nulo();
+
+	pa2m_nuevo_grupo("Pruebas de iterador interno");
+	no_se_puede_iterar_con_lista_nula_o_vacia();
+	puedo_iterar_y_me_devuelve_la_cantidad_de_elementos();
+
+	pa2m_nuevo_grupo("Pruebas de buscar elemento en lista");
+	no_puedo_buscar_un_elemento_en_una_lista_nula_o_vacia();
+	busco_un_elemento_que_esta_en_la_lista_y_lo_encuentra();
+	busco_un_elemento_que_no_esta_en_la_lista_y_no_lo_encuentra();
 
   	return pa2m_mostrar_reporte();
 }

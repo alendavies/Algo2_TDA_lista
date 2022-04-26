@@ -84,7 +84,6 @@ void probar_operaciones_lista()
 
 	printf("\n");
 
-
 	printf("Busco el elemento con valor 'd' en la lista: ");
 	char *elemento_d = lista_buscar_elemento(lista, elemento_es_d, NULL);
 	if(elemento_d && *elemento_d == 'd')
