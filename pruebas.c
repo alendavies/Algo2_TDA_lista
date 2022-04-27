@@ -323,7 +323,7 @@ void no_se_puede_avanzar_el_iterador_en_la_ultima_posicion()
 
 	iterador->corriente = lista->nodo_fin;
 
-	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador) == false && lista_iterador_avanzar(iterador) == false, "No puedo avanzar un iterador en la ultima posicion");	
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador) == true && lista_iterador_avanzar(iterador) == false, "No puedo avanzar un iterador en la ultima posicion de la lista");	
 
 	lista_iterador_destruir(iterador);
 	lista_destruir(lista);
@@ -407,9 +407,8 @@ void busco_un_elemento_que_no_esta_en_la_lista_y_no_lo_encuentra()
 bool mostrar_elemento(void *elemento, void *contador)
 {
 	if (elemento && contador)
-		printf("Elemento %i: %c \n", (*(int *)contador)++,
-		       *(char *)elemento);
-	return true;
+		return true;
+	return false;
 }
 
 void no_se_puede_iterar_con_lista_nula_o_vacia()
@@ -437,11 +436,9 @@ void puedo_iterar_y_me_devuelve_la_cantidad_de_elementos()
 	lista_insertar(lista, &elemento2);
 	lista_insertar(lista, &elemento3);
 
-	size_t elementos = lista_con_cada_elemento(NULL, mostrar_elemento, (void *)&contador);
-	printf("Recorri %lu elementos con el iterador interno y sume %i elementos\n",
-	       elementos, contador);
+	pa2m_afirmar(lista_con_cada_elemento(lista, mostrar_elemento, (void *)&contador) == 3, "Puedo iterar en una lista y me devuelve la cantidad de elementos");
 
-	pa2m_afirmar(lista_con_cada_elemento(NULL, mostrar_elemento, (void *)&contador) == 2, "Puedo iterar en una lista y me devuelve la cantidad de elementos");
+	lista_destruir(lista);
 }
 
 int main() {
@@ -500,7 +497,7 @@ int main() {
 
 	pa2m_nuevo_grupo("Pruebas de iterador interno");
 	no_se_puede_iterar_con_lista_nula_o_vacia();
-	//puedo_iterar_y_me_devuelve_la_cantidad_de_elementos();
+	puedo_iterar_y_me_devuelve_la_cantidad_de_elementos();
 
   	return pa2m_mostrar_reporte();
 }
