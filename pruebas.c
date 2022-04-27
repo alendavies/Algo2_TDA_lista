@@ -292,13 +292,13 @@ void creo_un_iterador_y_me_devuelve_un_iterador_valido()
 	lista_destruir(lista);
 }
 
-void no_se_puede_avanzar_el_iterador_si_no_tiene_siguiente()
+void no_se_puede_avanzar_el_iterador_en_lista_vacia_o_nula()
 {
 	lista_t *lista = lista_crear();
 
 	lista_iterador_t *iterador = lista_iterador_crear(lista);
 
-	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador) == false && lista_iterador_avanzar(iterador) == false, "No se puede avanzar un iterador si no tiene siguiente");	
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador) == false && lista_iterador_avanzar(iterador) == false, "No se puede avanzar un iterador en una lista vacia");	
 
 	lista_iterador_destruir(iterador);
 	lista_destruir(lista);
@@ -307,6 +307,44 @@ void no_se_puede_avanzar_el_iterador_si_no_tiene_siguiente()
 void no_se_puede_avanzar_en_un_iterador_nulo()
 {
 	pa2m_afirmar(lista_iterador_avanzar(NULL) == false, "No se puede avanzar en un iterador nulo");
+}
+
+void no_se_puede_avanzar_el_iterador_en_la_ultima_posicion()
+{
+	lista_t *lista = lista_crear();
+
+	char a = 'a', b = 'b', c = 'c';
+
+	lista_insertar(lista, &a);
+	lista_insertar(lista, &b);
+	lista_insertar(lista, &c);
+
+	lista_iterador_t *iterador = lista_iterador_crear(lista);
+
+	iterador->corriente = lista->nodo_fin;
+
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador) == false && lista_iterador_avanzar(iterador) == false, "No puedo avanzar un iterador en la ultima posicion");	
+
+	lista_iterador_destruir(iterador);
+	lista_destruir(lista);
+}
+
+void si_tiene_siguiente_puedo_avanzar()
+{
+	lista_t *lista = lista_crear();
+
+	char a = 'a', b = 'b', c = 'c';
+
+	lista_insertar(lista, &a);
+	lista_insertar(lista, &b);
+	lista_insertar(lista, &c);
+
+	lista_iterador_t *iterador = lista_iterador_crear(lista);
+
+	pa2m_afirmar(lista_iterador_tiene_siguiente(iterador) == true && lista_iterador_avanzar(iterador) == true, "Puedo avanzar un iterador si tiene siguiente");	
+
+	lista_iterador_destruir(iterador);
+	lista_destruir(lista);
 }
 
 void un_iterador_nulo_no_puede_tener_siguiente()
@@ -454,15 +492,15 @@ int main() {
 	
 	pa2m_nuevo_grupo("Pruebas de iterador externo");
 	creo_un_iterador_y_me_devuelve_un_iterador_valido();
-	no_se_puede_avanzar_el_iterador_si_no_tiene_siguiente();
 	un_iterador_nulo_no_puede_tener_siguiente();
 	no_se_puede_avanzar_en_un_iterador_nulo();
-	//si_tiene_siguiente_puedo_avanzar();
+	no_se_puede_avanzar_el_iterador_en_lista_vacia_o_nula();
+	no_se_puede_avanzar_el_iterador_en_la_ultima_posicion();
+	si_tiene_siguiente_puedo_avanzar();
 
 	pa2m_nuevo_grupo("Pruebas de iterador interno");
 	no_se_puede_iterar_con_lista_nula_o_vacia();
 	//puedo_iterar_y_me_devuelve_la_cantidad_de_elementos();
-
 
   	return pa2m_mostrar_reporte();
 }
