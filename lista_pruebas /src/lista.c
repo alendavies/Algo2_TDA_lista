@@ -294,14 +294,14 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *), 
 	if(!lista || lista_vacia(lista) || !funcion){
 		return 0;
 	}
-	size_t i = 0;
+	size_t cantidad = 0;
 	nodo_t *actual = lista->nodo_inicio;
 	while(actual != NULL && funcion(actual->elemento, contexto)){
 		actual = actual->siguiente;
-		i++;
+		cantidad++;
 	}
 	if(!actual){
-		i--;
+		cantidad--;
 	}
-	return i+1;
+	return cantidad+1;
 }
